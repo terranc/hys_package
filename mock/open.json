@@ -12,7 +12,7 @@ error值：
 **/
 {
 	"error": 0,
-	"msg": null,-
+	"msg": null,
 	"data": {
 		"data": {
 			"isDeleted": false,

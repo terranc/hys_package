@@ -15,13 +15,24 @@ window.onresize = function() {
   setRem()
 }
 
-var SHOP_URL = 'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
-var DETAIL_URL =
-  'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
+/* 预加载按钮图片 */
+var images = [
+  './img/button_bg@2x.png',
+  './img/button_bg@3x.png',
+  './img/button_open_bg@2x.png',
+  './img/button_open_bg@3x.png',
+  './img/button_open_side@2x.png',
+  './img/button_open_side@3x.png'
+]
+
+for (var i = 0; i < images.length; i++) {
+  var img = new Image()
+  img.src = images[i]
+}
 
 Vue.component('modal', {
   template:
-    '<div class="modal-mask" @touchmove.prevent@click="$emit(\'on-click-mask\')"><div class="modal-wrapper"><slot></slot></div></div>'
+    '<div class="modal-mask" @touchmove.prevent @click="$emit(\'on-click-mask\')"><div class="modal-wrapper"><slot></slot></div></div>'
 })
 
 var app = new Vue({
@@ -32,12 +43,12 @@ var app = new Vue({
       _this.setShare()
       // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
     })
-    var first = localStorage.getItem('first')
+    var first = localStorage.getItem(LOCALSTORAGE_KEY)
     if (first) {
       this.getSignInfo()
     } else {
       this.firstModalVisible = true
-      localStorage.setItem('first', '1')
+      localStorage.setItem(LOCALSTORAGE_KEY, '1')
     }
     this.getBasicInfo()
     this.getHistory()
@@ -47,13 +58,13 @@ var app = new Vue({
     datetimeStr: '',
     ready: false,
     hasMore: true,
-    firstModalVisible: false,
-    firstSteps: [
-      '微商城购买黑源素',
-      '支付后立即获得同等条包数的打卡机会',
-      '进入小程序每日准点打卡抽奖'
-    ],
-    signModalVisible: false,
+
+    /* 3个弹窗显示状态 */
+    firstModalVisible: false, // 第一次进首页提示弹窗
+    signModalVisible: false, // 打卡首页弹层
+    finishModalVisible: false, // 没有条包了
+
+    firstSteps: STEPS,
     signInfoRaw: {
       datetime_str: '',
       money: 0
@@ -67,25 +78,16 @@ var app = new Vue({
     signInfos: [{
       money: 0
     }],
-    finishModalVisible: false,
     user: {
-      id: '0',
-      avatar: '',
-      username: ''
+      avatar: window.avatar || '',
+      username: window.username || ''
     },
     summary: {
       total_signs: 0,
       total_gained: 0,
       left_signs: 0
     },
-    rules: [
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。'
-    ],
+    rules: RULES,
     history: []
   },
   methods: {

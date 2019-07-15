@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
     <link rel="icon" href="favicon.ico">
     <link href="./style.css" rel="stylesheet">
-    <title>黑素源喝喝打</title>
+    <title>黑源素喝喝打</title>
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js"></script>
@@ -264,6 +264,35 @@
         </transition>
       </div>
     </div>
+    <script>
+    // 去商城下单
+    var SHOP_URL = 'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
+    // 查看详细
+    var DETAIL_URL = 'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
+    // 活动步骤说明
+    var STEPS = [
+      '微商城购买黑源素',
+      '支付后立即获得同等条包数的打卡机会',
+      '进入小程序每日准点打卡抽奖'
+    ]
+    // 规则
+    var RULES = [
+      '活动规则文字内容活动规则文字内容活动规则文字内容。',
+      '活动规则文字内容活动规则文字内容活动规则文字内容。',
+      '活动规则文字内容活动规则文字内容活动规则文字内容。',
+      '活动规则文字内容活动规则文字内容活动规则文字内容。',
+      '活动规则文字内容活动规则文字内容活动规则文字内容。',
+      '活动规则文字内容活动规则文字内容活动规则文字内容。'
+    ]
+    // 本地储存是否第一次进入
+    var LOCALSTORAGE_KEY = 'first'
+
+    // 用户信息，可直接渲染
+    // 昵称
+    var username = ''
+    // 头像
+    var avatar = ''
+    </script>
     <script type="text/javascript" src="./confetti.js"></script>
     <script type="text/javascript" src="./app.js"></script>
   </body>
