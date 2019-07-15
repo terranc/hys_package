@@ -1,0 +1,50 @@
+{
+  "error": 0,
+  "data": {
+    "has_more": true,
+    "list": [
+    {
+      "index": 1,
+      "date_str": "7月23日 周二",
+      "list": [
+        {
+          "time": "8:30-9:00",
+          "status": "opened",
+          "money": 0.9
+        },
+        {
+          "time": "12:30-13:00",
+          "status": "miss",
+          "status_str": "错失"
+        },
+        {
+          "time": "19:30-20:00",
+          "status": "miss",
+          "status_str": "错失"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "date_str": "7月24日 周三",
+      "list": [
+        {
+          "time": "8:30-9:00",
+          "status": "opened",
+          "money": 2.6
+        },
+        {
+          "time": "12:30-13:00",
+          "status": "miss",
+          "status_str": "错失"
+        },
+        {
+          "time": "19:30-20:00",
+          "status": "not_start",
+          "status_str": "未开始"
+        }
+      ]
+    }
+  ]
+  }
+}

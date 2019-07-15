@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
+    <link rel="icon" href="favicon.ico">
+    <link href="./style.css" rel="stylesheet">
+    <title>黑素源喝喝打</title>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/promise-polyfill@8.1.3/dist/polyfill.min.js"></script>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but the page doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app">
+      <div>
+        <div class="user-info">
+          <img
+            :src="user.avatar"
+            alt="用户头像"
+            class="user-info__avatar">
+          <div class="user-info__name">
+            {{ user.username }}
+          </div>
+        </div>
+        <!-- summary -->
+        <div class="user-summary">
+          <div class="user-summary__item">
+            <div class="user-summary__title">
+              累计打卡
+            </div>
+            <div class="user-summary__value">
+              {{ summary.total_signs }}<span class="user-summary__unit">次</span>
+            </div>
+          </div>
+          <div class="user-summary__item">
+            <div class="user-summary__title">
+              获得红包
+            </div>
+            <div class="user-summary__value highlight">
+              {{ summary.total_gained }}<span class="user-summary__unit">元</span>
+            </div>
+          </div>
+          <div class="user-summary__item">
+            <div class="user-summary__title">
+              剩余打卡
+            </div>
+            <div class="user-summary__value">
+              {{ summary.left_signs }}<span class="user-summary__unit">次</span>
+            </div>
+          </div>
+        </div>
+        <!-- history -->
+        <div class="task-list">
+          <div
+            v-for="item in history"
+            :key="item.index"
+            class="history-item">
+            <div class="history-item__title">
+              第 {{ item.index }} 天 {{ item.date_str }}
+            </div>
+            <div class="history-item__content">
+              <div
+                v-for="(obj, index) in item.list"
+                :key="index"
+                class="sign-card"
+                :class="obj.status">
+                <div class="sign-card__time">
+                  {{ obj.time }}
+                </div>
+                <div class="sign-card__result">
+                  {{ obj.money || obj.status_str }}<span v-if="obj.money" class="sign-card__unit">元</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            v-if="hasMore"
+            type="button"
+            class="task-list__load-btn"
+            @click="onLoadMoreTask">
+          加载更多打卡任务
+          </button>
+          <!--@note 请配置条件-->
+          <div class="task-list__bottom-tip" v-if="!hasMore">
+            您的打卡任务已经全部加载完毕 <br>
+            再次购买或邀请好友购买黑源素可获得条包数相同的打卡抽奖任务
+          </div>
+        </div>
+        <a
+          href="https://weapp.design/"
+          class="rule">
+          <ul
+            class="rule-list">
+            <li
+              v-for="(item, index) in rules"
+              :key="index"
+              class="rule-item">
+              {{ index + 1 }}, {{ item }}
+            </li>
+          </ul>
+        </a>
+        <a
+          href="https://weapp.design/"
+          class="promo-img">
+        </a>
+        <div class="copyright">
+          Copyright ©  9huahang All Rights Reserved.
+        </div>
+        <modal
+          v-if="firstModalVisible"
+          @on-click-mask="firstModalVisible = false">
+          <div class="modal-container first-modal__container">
+            <div>
+              <div class="first-modal__tip">
+                <img
+                  src="./img/icon_cup@2x.png"
+                  srcset="./img/icon_cup@3x.png"
+                  class="icon-cup">
+                <div class="first-modal__tip-content">
+                  现在购买黑源素可立即参与打卡抽奖活动
+                </div>
+              </div>
+              <div
+                v-for="(item, index) in firstSteps"
+                :key="index"
+                class="first-modal__step">
+                <div class="first-modal__step-order">
+                  {{ index + 1 }}
+                </div>
+                <div class="first-modal__step-content">
+                  {{ item }}
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="button--primary"
+              @click.stop="onCheckMore">
+            查看详细
+            </button>
+          </div>
+        </modal>
+        <modal
+          v-if="signModalVisible"
+          @on-click-mask="signModalVisible = false">
+          <div
+            class="modal-container sign-modal__container"
+            :class="{ 'is-open' : signInfo.money }">
+            <div class="sign-modal__datetime">
+              {{ signInfo.datetime_str }}
+            </div>
+            <div
+              class="sign-modal__bar"
+              v-if="!signInfo.money"
+              @click.stop="onOpenSignBar">
+              打卡 开奖
+            </div>
+            <div
+              class="sign-modal__bar is-open"
+              v-if="signInfo.money"
+              @click.stop>
+              {{ signInfo.money }}<span class="sign-modal__bar-unit">元</span>
+            </div>
+            <img
+              src="./img/icon_cup@2x.png"
+              class="icon-cup">
+            <div class="sign-modal__tip">
+              奖金会通过公众号发放，请关注功黑源素公众号<br>
+              黑茶精华元素 黑源素，去油腻哦~
+            </div>
+            <button
+              type="button"
+              class="button--default sign-modal__share-btn"
+              v-if="signInfo.money"
+              @click.stop="onShareToWechat">
+            分享到微信群
+            </button>
+          </div>
+        </modal>
+        <modal
+          v-if="finishModalVisible"
+          @on-click-mask="finishModalVisible = false">
+          <div
+            class="modal-container">
+            <div class="finish-modal__title">
+              打卡次数已用完~
+            </div>
+            <div class="finish-modal__desc">
+              继续购买黑源素可获得条包数量相等的打卡抽奖机会
+            </div>
+            <img
+              src="./img/product@2x.png"
+              srcset="./img/product@3x.png 3x"
+              class="finish-modal__product-img">
+            <button
+              type="button"
+              class="button--primary finish-modal__shop-btn"
+              @click.stop="onCheckShop">
+            去商城下单
+            </button>
+            <img
+              src="./img/icon_cup@2x.png"
+              srcset="./img/icon_cup@3x.png 3x"
+              class="icon-cup">
+            <div class="finish-modal__tip">
+              黑茶精华元素 黑源素，去油腻哦~<br>
+              一定要坚持喝哦
+            </div>
+          </div>
+        </modal>
+      </div>
+    </div>
+    <script type="text/javascript" src="./app.js"></script>
+  </body>
+</html>
