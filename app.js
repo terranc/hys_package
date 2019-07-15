@@ -15,9 +15,23 @@ window.onresize = function() {
   setRem()
 }
 
+/* 预加载按钮图片 */
+var images = [
+  './img/button_bg@2x.png',
+  './img/button_bg@3x.png',
+  './img/button_open_bg@2x.png',
+  './img/button_open_bg@3x.png',
+  './img/button_open_side@2x.png',
+  './img/button_open_side@3x.png'
+]
+
+for (var i = 0; i < images.length; i++) {
+  var img = new Image()
+  img.src = images[i]
+}
+
 var SHOP_URL = 'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
-var DETAIL_URL =
-  'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
+var DETAIL_URL = 'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
 
 Vue.component('modal', {
   template:
@@ -47,13 +61,17 @@ var app = new Vue({
     datetimeStr: '',
     ready: false,
     hasMore: true,
-    firstModalVisible: false,
+
+    /* 3个弹窗显示状态 */
+    firstModalVisible: false, // 第一次进首页提示弹窗
+    signModalVisible: false, // 打卡首页弹层
+    finishModalVisible: false, // 没有条包了
+
     firstSteps: [
       '微商城购买黑源素',
       '支付后立即获得同等条包数的打卡机会',
       '进入小程序每日准点打卡抽奖'
     ],
-    signModalVisible: false,
     signInfoRaw: {
       datetime_str: '',
       money: 0
@@ -66,7 +84,6 @@ var app = new Vue({
     signInfos: [{
       money: 0
     }],
-    finishModalVisible: false,
     user: {
       id: '0',
       avatar: '',
