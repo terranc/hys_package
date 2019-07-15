@@ -30,12 +30,9 @@ for (var i = 0; i < images.length; i++) {
   img.src = images[i]
 }
 
-var SHOP_URL = 'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
-var DETAIL_URL = 'https://h5.youzan.com/wscshop/showcase/homepage?kdt_id=19248735'
-
 Vue.component('modal', {
   template:
-    '<div class="modal-mask" @touchmove.prevent@click="$emit(\'on-click-mask\')"><div class="modal-wrapper"><slot></slot></div></div>'
+    '<div class="modal-mask" @touchmove.prevent @click="$emit(\'on-click-mask\')"><div class="modal-wrapper"><slot></slot></div></div>'
 })
 
 var app = new Vue({
@@ -46,12 +43,12 @@ var app = new Vue({
       _this.setShare()
       // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
     })
-    var first = localStorage.getItem('first')
+    var first = localStorage.getItem(LOCALSTORAGE_KEY)
     if (first) {
       this.getSignInfo()
     } else {
       this.firstModalVisible = true
-      localStorage.setItem('first', '1')
+      localStorage.setItem(LOCALSTORAGE_KEY, '1')
     }
     this.getBasicInfo()
     this.getHistory()
@@ -67,11 +64,7 @@ var app = new Vue({
     signModalVisible: false, // 打卡首页弹层
     finishModalVisible: false, // 没有条包了
 
-    firstSteps: [
-      '微商城购买黑源素',
-      '支付后立即获得同等条包数的打卡机会',
-      '进入小程序每日准点打卡抽奖'
-    ],
+    firstSteps: STEPS,
     signInfoRaw: {
       datetime_str: '',
       money: 0
@@ -85,23 +78,15 @@ var app = new Vue({
       money: 0
     }],
     user: {
-      id: '0',
-      avatar: '',
-      username: ''
+      avatar: window.avatar || '',
+      username: window.username || ''
     },
     summary: {
       total_signs: 0,
       total_gained: 0,
       left_signs: 0
     },
-    rules: [
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。'
-    ],
+    rules: RULES,
     history: []
   },
   methods: {
