@@ -1,11 +1,41 @@
+/**
+该json对象在  还未打开红包时  返回
+
+未打开红包前，checkInAmount为null
+
+error值：
+0=正常，有打卡信息
+101=在活动期内，但没有打卡资格
+102=未在活动期内
+
+
+**/
 {
-  "error": 0,
-  "data": {
-  	"datetime_str": "7月19日 周三 9:30~20:00",
-  	"list": [{
-	    "money": 5.8
-	 }, {
-	   "money": 10.24
-	 }]
-  }
+	"error": 0,
+	"msg": null,
+	"data": {
+		"data": {
+			"isDeleted": false,
+			"createDate": null,
+			"updateDate": "2019-07-15T12:55:40.622+0000",
+			"operator": null,
+			"now": "2019-07-15T12:55:40.622+0000",
+			"page": null,
+			"limit": null,
+			"total": null,
+			"param": null,
+			"code": 0,
+			"msg": null,
+			"id": "156258480015100069",
+			"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
+			"orderNo": "E20190708195952024300001",
+			"checkInDate": "2019-07-14T16:00:00.000+0000",
+			"checkInRound": 3,
+			"checkInType": "REGULAR",
+			"checkInAmount": null,
+			"state": "ON",
+			"checkInTime": null,
+			"createTime": "2019-07-08T12:00:03.000+0000"
+		}
+	}
 }
