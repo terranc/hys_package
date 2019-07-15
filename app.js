@@ -21,7 +21,7 @@ var DETAIL_URL =
 
 Vue.component('modal', {
   template:
-    '<transition name="modal"><div class="modal-mask" @touchmove.prevent@click="$emit(\'on-click-mask\')"><div class="modal-wrapper"><slot></slot></div></div></transition>'
+    '<div class="modal-mask" @touchmove.prevent@click="$emit(\'on-click-mask\')"><div class="modal-wrapper"><slot></slot></div></div>'
 })
 
 var app = new Vue({
@@ -44,6 +44,8 @@ var app = new Vue({
     this.setJssdkConfig()
   },
   data: {
+    datetimeStr: '',
+    ready: false,
     hasMore: true,
     firstModalVisible: false,
     firstSteps: [
@@ -56,10 +58,14 @@ var app = new Vue({
       datetime_str: '',
       money: 0
     },
+    // 弃用
     signInfo: {
       datetime_str: '',
       money: 0
     },
+    signInfos: [{
+      money: 0
+    }],
     finishModalVisible: false,
     user: {
       id: '0',
@@ -85,9 +91,16 @@ var app = new Vue({
     getSignInfo: function() {
       var _this = this
       axios.get('./mock/sign.json').then(function(res) {
-        _this.signModalVisible = res.data.data.can_sign
-        _this.signInfoRaw = res.data.data
-        if (!res.data.data.can_sign) {
+        _this.signModalVisible = res.data.data.list.length > 0
+        _this.signInfoRaw = res.data.data.list.slice()
+        _this.datetimeStr = res.data.data.datetime_str
+        _this.signInfos = res.data.data.list.map(function(one) {
+          return {
+            money: 0
+          }
+        })
+        _this.signInfo.datetime_str = res.data.data.datetime_str
+        if (!_this.signModalVisible) {
           _this.finishModalVisible = true
         }
       })
@@ -105,6 +118,7 @@ var app = new Vue({
         var data = res.data.data
         _this.summary = data.summary
         _this.user = data.user
+        _this.ready = true
       })
     },
     setJssdkConfig: function() {
@@ -141,8 +155,12 @@ var app = new Vue({
     onCheckMore: function() {
       location.href = DETAIL_URL
     },
-    onOpenSignBar: function() {
-      this.signInfo = this.signInfoRaw
+    onOpenSignBar: function(item, index) {
+      window.confetti({
+        particleCount: 256,
+        zIndex:9999
+      })
+      item.money = this.signInfoRaw[index].money
     },
     onShareToWechat: function() {},
     onCheckShop: function() {

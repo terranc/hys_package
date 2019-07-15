@@ -19,6 +19,10 @@ button {
   outline: none
 }
 
+[v-cloak] {
+  display: none;
+}
+
 #app {
   font-family: -apple-system, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -459,13 +463,13 @@ button {
 }
 
 .sign-modal__container.is-open {
-  background-image: url(./img/dialog_bg@2x.png)
+  background-image: url(./img/dialog_bg_simple@2x.png)
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-modal__container.is-open {
-    background-image: url(./img/dialog_bg@3x.png)
+    background-image: url(./img/dialog_bg_simple@3x.png)
   }
 }
 
@@ -486,7 +490,8 @@ button {
   font-weight: 600;
   text-align: center;
   line-height: 3.75rem;
-  margin: 1rem 0 .875rem
+  margin-top: 1rem;
+  position: relative;
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
@@ -498,12 +503,55 @@ button {
 
 .sign-modal__bar.is-open {
   font-size: 1.5625rem;
-  margin-bottom: .375rem
+  background-size: 16.1875rem 3.96875rem;
+  background-image: url(./img/button_open_bg@2x.png);
+}
+
+@media (-webkit-min-device-pixel-ratio:3),
+(min-device-pixel-ratio:3) {
+  .sign-modal__bar.is-open {
+    background-image: url(./img/button_open_bg@3x.png)
+  }
+}
+
+.sign-modal__bar-side {
+  width: 2.34375rem;
+  height: 4.21875rem;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url(./img/button_open_side@2x.png);
+  position: absolute;
+  top: 0;
+  right: -1rem;
+  animation: move .3s;
+}
+
+@media (-webkit-min-device-pixel-ratio:3),
+(min-device-pixel-ratio:3) {
+  .sign-modal__bar-side {
+    background-image: url(./img/button_open_side@3x.png)
+  }
+}
+
+@keyframes move {
+  from {
+    transform: rotate(-10deg);
+    right: 0;
+  }
+  to {
+    transform: rotate(0deg);
+    right: -1rem;
+  }
 }
 
 .sign-modal__bar-unit {
   font-size: .5625rem;
   margin-left: .25rem
+}
+
+.sign-modal__icon-cup {
+  margin-top: .875rem;
 }
 
 .sign-modal__tip {

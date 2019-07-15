@@ -1,8 +1,11 @@
 {
   "error": 0,
   "data": {
-    "can_sign": true,
-    "datetime_str": "7月19日 周三 9:30~20:00",
-    "money": 5.8
+  	"datetime_str": "7月19日 周三 9:30~20:00",
+  	"list": [{
+	    "money": 5.8
+	 }, {
+	   "money": 10.24
+	 }]
   }
 }

@@ -20,10 +20,11 @@
       <div>
         <div class="user-info">
           <img
+            v-show="user.avatar"
             :src="user.avatar"
             alt="用户头像"
             class="user-info__avatar">
-          <div class="user-info__name">
+          <div class="user-info__name" v-cloak>
             {{ user.username }}
           </div>
         </div>
@@ -33,7 +34,7 @@
             <div class="user-summary__title">
               累计打卡
             </div>
-            <div class="user-summary__value">
+            <div class="user-summary__value" v-cloak>
               {{ summary.total_signs }}<span class="user-summary__unit">次</span>
             </div>
           </div>
@@ -41,7 +42,7 @@
             <div class="user-summary__title">
               获得红包
             </div>
-            <div class="user-summary__value highlight">
+            <div class="user-summary__value highlight" v-cloak>
               {{ summary.total_gained }}<span class="user-summary__unit">元</span>
             </div>
           </div>
@@ -49,7 +50,7 @@
             <div class="user-summary__title">
               剩余打卡
             </div>
-            <div class="user-summary__value">
+            <div class="user-summary__value" v-cloak>
               {{ summary.left_signs }}<span class="user-summary__unit">次</span>
             </div>
           </div>
@@ -60,7 +61,7 @@
             v-for="item in history"
             :key="item.index"
             class="history-item">
-            <div class="history-item__title">
+            <div class="history-item__title" v-cloak>
               第 {{ item.index }} 天 {{ item.date_str }}
             </div>
             <div class="history-item__content">
@@ -69,10 +70,10 @@
                 :key="index"
                 class="sign-card"
                 :class="obj.status">
-                <div class="sign-card__time">
+                <div class="sign-card__time" v-cloak>
                   {{ obj.time }}
                 </div>
-                <div class="sign-card__result">
+                <div class="sign-card__result" v-cloak>
                   {{ obj.money || obj.status_str }}<span v-if="obj.money" class="sign-card__unit">元</span>
                 </div>
               </div>
@@ -92,7 +93,7 @@
           </div>
         </div>
         <a
-          href="https://weapp.design/"
+          href="https://baidu.com/"
           class="rule">
           <ul
             class="rule-list">
@@ -105,116 +106,131 @@
           </ul>
         </a>
         <a
-          href="https://weapp.design/"
+          href="https://baidu.com/"
           class="promo-img">
         </a>
         <div class="copyright">
           Copyright ©  9huahang All Rights Reserved.
         </div>
-        <modal
-          v-if="firstModalVisible"
-          @on-click-mask="firstModalVisible = false">
-          <div class="modal-container first-modal__container">
-            <div>
-              <div class="first-modal__tip">
-                <img
-                  src="./img/icon_cup@2x.png"
-                  srcset="./img/icon_cup@3x.png"
-                  class="icon-cup">
-                <div class="first-modal__tip-content">
-                  现在购买黑源素可立即参与打卡抽奖活动
+        <transition name="modal">
+          <modal
+            v-if="firstModalVisible"
+            @on-click-mask="firstModalVisible = false">
+            <div class="modal-container first-modal__container">
+              <div>
+                <div class="first-modal__tip">
+                  <img
+                    src="./img/icon_cup@2x.png"
+                    srcset="./img/icon_cup@3x.png"
+                    class="icon-cup">
+                  <div class="first-modal__tip-content">
+                    现在购买黑源素可立即参与打卡抽奖活动
+                  </div>
+                </div>
+                <div
+                  v-for="(item, index) in firstSteps"
+                  :key="index"
+                  class="first-modal__step">
+                  <div class="first-modal__step-order">
+                    {{ index + 1 }}
+                  </div>
+                  <div class="first-modal__step-content">
+                    {{ item }}
+                  </div>
                 </div>
               </div>
-              <div
-                v-for="(item, index) in firstSteps"
-                :key="index"
-                class="first-modal__step">
-                <div class="first-modal__step-order">
-                  {{ index + 1 }}
+              <button
+                type="button"
+                class="button--primary"
+                @click.stop="onCheckMore">
+              查看详细
+              </button>
+            </div>
+          </modal>
+        </transition>
+        <transition name="modal">
+          <modal
+            v-if="signModalVisible"
+            @on-click-mask="signModalVisible = false">
+            <div
+              class="modal-container sign-modal__container"
+              :class="{ 'is-open' : signInfo.money }">
+              <div class="sign-modal__datetime">
+                {{ datetimeStr }}
+              </div>
+              <transition name="bounce">
+                <div v-if="signModalVisible">
+                  <template v-for="(item, index) in signInfos">
+                    <div
+                      class="sign-modal__bar"
+                      v-if="!item.money"
+                      @click.stop="onOpenSignBar(item, index)">
+                      打卡 开奖
+                    </div>
+                    <div
+                      class="sign-modal__bar is-open"
+                      v-if="item.money"
+                      @click.stop>
+                      {{ item.money }}<span class="sign-modal__bar-unit">元</span>
+                      <div class="sign-modal__bar-side">
+                      </div>
+                    </div>
+                  </template>
                 </div>
-                <div class="first-modal__step-content">
-                  {{ item }}
-                </div>
+              </transition>
+              <img
+                src="./img/icon_cup@2x.png"
+                class="icon-cup sign-modal__icon-cup">
+              <div class="sign-modal__tip">
+                奖金会通过公众号发放，请关注功黑源素公众号<br>
+                黑茶精华元素 黑源素，去油腻哦~
+              </div>
+              <button
+                type="button"
+                class="button--default sign-modal__share-btn"
+                v-if="signInfo.money"
+                @click.stop="onShareToWechat">
+              分享到微信群
+              </button>
+            </div>
+          </modal>
+        </transition>
+        <transition name="modal">
+          <modal
+            v-if="finishModalVisible"
+            @on-click-mask="finishModalVisible = false">
+            <div
+              class="modal-container">
+              <div class="finish-modal__title">
+                打卡次数已用完~
+              </div>
+              <div class="finish-modal__desc">
+                继续购买黑源素可获得条包数量相等的打卡抽奖机会
+              </div>
+              <img
+                src="./img/product@2x.png"
+                srcset="./img/product@3x.png 3x"
+                class="finish-modal__product-img">
+              <button
+                type="button"
+                class="button--primary finish-modal__shop-btn"
+                @click.stop="onCheckShop">
+              去商城下单
+              </button>
+              <img
+                src="./img/icon_cup@2x.png"
+                srcset="./img/icon_cup@3x.png 3x"
+                class="icon-cup">
+              <div class="finish-modal__tip">
+                黑茶精华元素 黑源素，去油腻哦~<br>
+                一定要坚持喝哦
               </div>
             </div>
-            <button
-              type="button"
-              class="button--primary"
-              @click.stop="onCheckMore">
-            查看详细
-            </button>
-          </div>
-        </modal>
-        <modal
-          v-if="signModalVisible"
-          @on-click-mask="signModalVisible = false">
-          <div
-            class="modal-container sign-modal__container"
-            :class="{ 'is-open' : signInfo.money }">
-            <div class="sign-modal__datetime">
-              {{ signInfo.datetime_str }}
-            </div>
-            <div
-              class="sign-modal__bar"
-              v-if="!signInfo.money"
-              @click.stop="onOpenSignBar">
-              打卡 开奖
-            </div>
-            <div
-              class="sign-modal__bar is-open"
-              v-if="signInfo.money"
-              @click.stop>
-              {{ signInfo.money }}<span class="sign-modal__bar-unit">元</span>
-            </div>
-            <img
-              src="./img/icon_cup@2x.png"
-              class="icon-cup">
-            <div class="sign-modal__tip">
-              奖金会通过公众号发放，请关注功黑源素公众号<br>
-              黑茶精华元素 黑源素，去油腻哦~
-            </div>
-            <button
-              type="button"
-              class="button--default sign-modal__share-btn"
-              v-if="signInfo.money"
-              @click.stop="onShareToWechat">
-            分享到微信群
-            </button>
-          </div>
-        </modal>
-        <modal
-          v-if="finishModalVisible"
-          @on-click-mask="finishModalVisible = false">
-          <div
-            class="modal-container">
-            <div class="finish-modal__title">
-              打卡次数已用完~
-            </div>
-            <div class="finish-modal__desc">
-              继续购买黑源素可获得条包数量相等的打卡抽奖机会
-            </div>
-            <img
-              src="./img/product@2x.png"
-              srcset="./img/product@3x.png 3x"
-              class="finish-modal__product-img">
-            <button
-              type="button"
-              class="button--primary finish-modal__shop-btn"
-              @click.stop="onCheckShop">
-            去商城下单
-            </button>
-            <img
-              src="./img/icon_cup@2x.png"
-              srcset="./img/icon_cup@3x.png 3x"
-              class="icon-cup">
-            <div class="finish-modal__tip">
-              黑茶精华元素 黑源素，去油腻哦~<br>
-              一定要坚持喝哦
-            </div>
-          </div>
-        </modal>
+          </modal>
+        </transition>
       </div>
     </div>
+    <script type="text/javascript" src="./confetti.js"></script>
     <script type="text/javascript" src="./app.js"></script>
   </body>
 </html>
