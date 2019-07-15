@@ -1,29 +1,157 @@
 {
-  "error": 0,
-  "data": {
-    "has_more": false,
-    "list": [
-    {
-      "index": 1,
-      "date_str": "7月24日 周三",
-      "list": [
-        {
-          "time": "8:30-9:00",
-          "status": "opened",
-          "money": 0.9
-        },
-        {
-          "time": "12:30-13:00",
-          "status": "miss",
-          "status_str": "错失"
-        },
-        {
-          "time": "19:30-20:00",
-          "status": "miss",
-          "status_str": "错失"
-        }
-      ]
-    }
-  ]
-  }
+	"error": 0,
+	"msg": null,
+	"data": {
+		"has_more": false,
+		"list": [
+			{
+				"checkInDate": "2019-07-13T16:00:00.000+0000",
+				"list": [
+					{
+						"isDeleted": false,
+						"createDate": null,
+						"updateDate": "2019-07-15T10:13:40.981+0000",
+						"operator": null,
+						"now": "2019-07-15T10:13:40.981+0000",
+						"page": null,
+						"limit": null,
+						"total": null,
+						"param": null,
+						"code": 0,
+						"msg": null,
+						"id": "156258480015100064",
+						"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
+						"orderNo": "E20190708195952024300001",
+						"checkInDate": "2019-07-13T16:00:00.000+0000",
+						"checkInRound": 1,
+						"checkInType": "REGULAR",
+						"checkInAmount": null,
+						"state": "OFF",
+						"checkInTime": null,
+						"createTime": "2019-07-08T12:00:03.000+0000"
+					},
+					{
+						"isDeleted": false,
+						"createDate": null,
+						"updateDate": "2019-07-15T10:13:40.982+0000",
+						"operator": null,
+						"now": "2019-07-15T10:13:40.982+0000",
+						"page": null,
+						"limit": null,
+						"total": null,
+						"param": null,
+						"code": 0,
+						"msg": null,
+						"id": "156258480015100065",
+						"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
+						"orderNo": "E20190708195952024300001",
+						"checkInDate": "2019-07-13T16:00:00.000+0000",
+						"checkInRound": 2,
+						"checkInType": "REGULAR",
+						"checkInAmount": null,
+						"state": "OFF",
+						"checkInTime": null,
+						"createTime": "2019-07-08T12:00:03.000+0000"
+					},
+					{
+						"isDeleted": false,
+						"createDate": null,
+						"updateDate": "2019-07-15T10:13:40.982+0000",
+						"operator": null,
+						"now": "2019-07-15T10:13:40.982+0000",
+						"page": null,
+						"limit": null,
+						"total": null,
+						"param": null,
+						"code": 0,
+						"msg": null,
+						"id": "156258480015100066",
+						"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
+						"orderNo": "E20190708195952024300001",
+						"checkInDate": "2019-07-13T16:00:00.000+0000",
+						"checkInRound": 3,
+						"checkInType": "REGULAR",
+						"checkInAmount": null,
+						"state": "OFF",
+						"checkInTime": null,
+						"createTime": "2019-07-08T12:00:03.000+0000"
+					}
+				]
+			},
+			{
+				"checkInDate": "2019-07-14T16:00:00.000+0000",
+				"list": [
+					{
+						"isDeleted": false,
+						"createDate": null,
+						"updateDate": "2019-07-15T10:13:41.003+0000",
+						"operator": null,
+						"now": "2019-07-15T10:13:41.003+0000",
+						"page": null,
+						"limit": null,
+						"total": null,
+						"param": null,
+						"code": 0,
+						"msg": null,
+						"id": "156258480015100067",
+						"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
+						"orderNo": "E20190708195952024300001",
+						"checkInDate": "2019-07-14T16:00:00.000+0000",
+						"checkInRound": 1,
+						"checkInType": "REGULAR",
+						"checkInAmount": null,
+						"state": "OFF",
+						"checkInTime": null,
+						"createTime": "2019-07-08T12:00:03.000+0000"
+					},
+					{
+						"isDeleted": false,
+						"createDate": null,
+						"updateDate": "2019-07-15T10:13:41.004+0000",
+						"operator": null,
+						"now": "2019-07-15T10:13:41.004+0000",
+						"page": null,
+						"limit": null,
+						"total": null,
+						"param": null,
+						"code": 0,
+						"msg": null,
+						"id": "156258480015100068",
+						"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
+						"orderNo": "E20190708195952024300001",
+						"checkInDate": "2019-07-14T16:00:00.000+0000",
+						"checkInRound": 2,
+						"checkInType": "REGULAR",
+						"checkInAmount": null,
+						"state": "OFF",
+						"checkInTime": null,
+						"createTime": "2019-07-08T12:00:03.000+0000"
+					},
+					{
+						"isDeleted": false,
+						"createDate": null,
+						"updateDate": "2019-07-15T10:13:41.004+0000",
+						"operator": null,
+						"now": "2019-07-15T10:13:41.004+0000",
+						"page": null,
+						"limit": null,
+						"total": null,
+						"param": null,
+						"code": 0,
+						"msg": null,
+						"id": "156258480015100069",
+						"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
+						"orderNo": "E20190708195952024300001",
+						"checkInDate": "2019-07-14T16:00:00.000+0000",
+						"checkInRound": 3,
+						"checkInType": "REGULAR",
+						"checkInAmount": null,
+						"state": "OFF",
+						"checkInTime": null,
+						"createTime": "2019-07-08T12:00:03.000+0000"
+					}
+				]
+			}
+		]
+	}
 }
