@@ -377,19 +377,19 @@ button {
 }
 
 .first-modal__container {
-  width: 21.09375rem;
-  height: 20.5625rem;
-  background-position: 0 0;
+  width: 19.84375rem;
+  height: 29.90625rem;
+  background-position: 0 0, center 3.75rem;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-image: url(./img/dialog_bg_simple@2x.png);
-  padding-top: 7.75rem
+  background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@2x.png);
+  background-size: 100% 100%, contain;
+  padding-top: 11rem;
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .first-modal__container {
-    background-image: url(./img/dialog_bg_simple@3x.png)
+    background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@3x.png);
   }
 }
 
@@ -444,13 +444,13 @@ button {
 }
 
 .sign-modal__container {
-  width: 21.09375rem;
-  height: 21.875rem;
-  background-position: 0 0;
+  width: 19.84375rem;
+  height: 29.90625rem;
+  background-position: 0 0, center 3.75rem;
   background-repeat: no-repeat;
-  background-image: url(./img/dialog_bg_simple@2x.png);
-  background-size: 21.09375rem 20.5625rem;
-  padding-top: 7.5rem;
+  background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@2x.png);
+  background-size: 100% 100%, contain;
+  padding-top: 10.625rem;
   -webkit-transition: all .3s;
   transition: all .3s
 }
@@ -458,18 +458,7 @@ button {
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-modal__container {
-    background-image: url(./img/dialog_bg_simple@3x.png)
-  }
-}
-
-.sign-modal__container.is-open {
-  background-image: url(./img/dialog_bg_simple@2x.png)
-}
-
-@media (-webkit-min-device-pixel-ratio:3),
-(min-device-pixel-ratio:3) {
-  .sign-modal__container.is-open {
-    background-image: url(./img/dialog_bg_simple@3x.png)
+    background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@3x.png);
   }
 }
 
@@ -586,9 +575,38 @@ button {
   margin-bottom: 1rem
 }
 
-.finish-modal__tip {
+.finish-modal__tip,
+.countdown-modal__tip {
   font-size: .625rem;
   color: #d38468;
   text-align: center;
   margin-top: .625rem
+}
+
+.countdown-modal__title {
+  font-size: 1.125rem;
+  color: #fff;
+  margin-bottom: .625rem;
+}
+
+.countdown-modal__desc {
+  text-align: center;
+  font-size: .75rem;
+  color: #D38468;
+  line-height: 1.375rem;
+}
+
+.conntdown-modal__timer {
+  color: white;
+  font-size: 2.34375rem;
+  margin-bottom: .875rem;
+}
+
+.countdown-modal__timer-unit {
+  font-size: .75rem;
+  margin-left: 8px;
+}
+
+.countdown-modal__confirm-btn {
+  margin-bottom: 1.1875rem;
 }
