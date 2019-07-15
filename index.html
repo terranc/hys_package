@@ -155,8 +155,7 @@
             v-if="signModalVisible"
             @on-click-mask="signModalVisible = false">
             <div
-              class="modal-container sign-modal__container"
-              :class="{ 'is-open' : signInfo.money }">
+              class="modal-container sign-modal__container">
               <div class="sign-modal__datetime">
                 {{ datetimeStr }}
               </div>
@@ -224,6 +223,39 @@
                 srcset="./img/icon_cup@3x.png 3x"
                 class="icon-cup">
               <div class="finish-modal__tip">
+                黑茶精华元素 黑源素，去油腻哦~<br>
+                一定要坚持喝哦
+              </div>
+            </div>
+          </modal>
+        </transition>
+        <transition name="modal">
+          <modal
+            v-if="countdownModalVisible"
+            @on-click-mask="countdownModalVisible = false">
+            <div
+              class="modal-container">
+              <div class="countdown-modal__title">
+                打卡时间还没到哦~
+              </div>
+              <div class="countdown-modal__desc">
+                下一次打卡时间为 12：30~13：30<br>
+                离打卡还有
+              </div>
+              <div class="conntdown-modal__timer">
+                00:20:39<span class="countdown-modal__timer-unit">秒</span>
+              </div>
+              <button
+                type="button"
+                class="button--primary countdown-modal__confirm-btn"
+                @click.stop="onCheckCountdownConfirm">
+                知道了
+              </button>
+              <img
+                src="./img/icon_cup@2x.png"
+                srcset="./img/icon_cup@3x.png 3x"
+                class="icon-cup">
+              <div class="countdown-modal__tip">
                 黑茶精华元素 黑源素，去油腻哦~<br>
                 一定要坚持喝哦
               </div>

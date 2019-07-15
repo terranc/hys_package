@@ -58,6 +58,7 @@ var app = new Vue({
       datetime_str: '',
       money: 0
     },
+    countdownModalVisible: false,
     // 弃用
     signInfo: {
       datetime_str: '',
