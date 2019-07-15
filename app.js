@@ -74,11 +74,11 @@ var app = new Vue({
       money: 0
     },
     countdownModalVisible: false,
-    // 弃用
     signInfo: {
       datetime_str: '',
       money: 0
     },
+    // 因为接口只返回单个，多个已经弃用
     signInfos: [{
       money: 0
     }],
@@ -98,15 +98,16 @@ var app = new Vue({
     getSignInfo: function() {
       var _this = this
       axios.get('./mock/sign.json').then(function(res) {
-        _this.signModalVisible = res.data.data.list.length > 0
-        _this.signInfoRaw = res.data.data.list.slice()
-        _this.datetimeStr = res.data.data.datetime_str
-        _this.signInfos = res.data.data.list.map(function(one) {
-          return {
-            money: 0
-          }
-        })
-        _this.signInfo.datetime_str = res.data.data.datetime_str
+        _this.signModalVisible = res.data.data.data
+        // _this.signInfoRaw = res.data.data.list.slice()
+        _this.signInfoRaw = res.data.data.data
+        _this.datetimeStr = res.data.data.checkInDate
+        // _this.signInfos = res.data.data.list.map(function(one) {
+        //   return {
+        //     money: 0
+        //   }
+        // })
+        // _this.signInfo.datetime_str = res.data.data.datetime_str
         if (!_this.signModalVisible) {
           _this.finishModalVisible = true
         }
@@ -163,11 +164,14 @@ var app = new Vue({
       location.href = DETAIL_URL
     },
     onOpenSignBar: function(item, index) {
+      var _this = this
       window.confetti({
         particleCount: 256,
         zIndex:9999
       })
-      item.money = this.signInfoRaw[index].money
+      axios.get('./mock/open.json').then(function(res) {
+        _this.signInfo.money = res.data.data.data.checkInAmount
+      })
     },
     onShareToWechat: function() {},
     onCheckShop: function() {

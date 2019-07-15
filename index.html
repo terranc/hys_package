@@ -161,18 +161,18 @@
               </div>
               <transition name="bounce">
                 <div v-if="signModalVisible">
-                  <template v-for="(item, index) in signInfos">
+                  <template>
                     <div
                       class="sign-modal__bar"
-                      v-if="!item.money"
-                      @click.stop="onOpenSignBar(item, index)">
+                      v-if="!signInfo.money"
+                      @click.stop="onOpenSignBar">
                       打卡 开奖
                     </div>
                     <div
                       class="sign-modal__bar is-open"
-                      v-if="item.money"
+                      v-if="signInfo.money"
                       @click.stop>
-                      {{ item.money }}<span class="sign-modal__bar-unit">元</span>
+                      {{ signInfo.money }}<span class="sign-modal__bar-unit">元</span>
                       <div class="sign-modal__bar-side">
                       </div>
                     </div>
