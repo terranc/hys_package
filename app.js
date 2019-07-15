@@ -30,6 +30,10 @@ for (var i = 0; i < images.length; i++) {
   img.src = images[i]
 }
 
+var map = {
+
+}
+
 Vue.component('modal', {
   template:
     '<div class="modal-mask" @touchmove.prevent @click="$emit(\'on-click-mask\')"><div class="modal-wrapper"><slot></slot></div></div>'
@@ -79,13 +83,13 @@ var app = new Vue({
       money: 0
     }],
     user: {
-      avatar: window.avatar || '',
-      username: window.username || ''
+      headimgurl: window.headimgurl || '',
+      nickname: window.nickname || ''
     },
     summary: {
-      total_signs: 0,
-      total_gained: 0,
-      left_signs: 0
+      gotTotalAmount: 0.00,
+      numChecked: 0,
+      numToCheck: 12
     },
     rules: RULES,
     history: []

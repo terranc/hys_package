@@ -20,12 +20,12 @@
       <div>
         <div class="user-info">
           <img
-            v-show="user.avatar"
-            :src="user.avatar"
-            alt="用户头像"
+            v-show="user.headimgurl"
+            :src="user.headimgurl"
+            :alt="user.nickname"
             class="user-info__avatar">
           <div class="user-info__name" v-cloak>
-            {{ user.username }}
+            {{ user.nickname }}
           </div>
         </div>
         <!-- summary -->
@@ -35,7 +35,7 @@
               累计打卡
             </div>
             <div class="user-summary__value" v-cloak>
-              {{ summary.total_signs }}<span class="user-summary__unit">次</span>
+              {{ summary.gotTotalAmount }}<span class="user-summary__unit">次</span>
             </div>
           </div>
           <div class="user-summary__item">
@@ -43,7 +43,7 @@
               获得红包
             </div>
             <div class="user-summary__value highlight" v-cloak>
-              {{ summary.total_gained }}<span class="user-summary__unit">元</span>
+              {{ summary.numChecked }}<span class="user-summary__unit">元</span>
             </div>
           </div>
           <div class="user-summary__item">
@@ -51,7 +51,7 @@
               剩余打卡
             </div>
             <div class="user-summary__value" v-cloak>
-              {{ summary.left_signs }}<span class="user-summary__unit">次</span>
+              {{ summary.numToCheck }}<span class="user-summary__unit">次</span>
             </div>
           </div>
         </div>
@@ -289,9 +289,9 @@
 
     // 用户信息，可直接渲染
     // 昵称
-    var username = ''
+    var nickname = ''
     // 头像
-    var avatar = ''
+    var headimgurl = ''
     </script>
     <script type="text/javascript" src="./confetti.js"></script>
     <script type="text/javascript" src="./app.js"></script>
