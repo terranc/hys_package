@@ -46,6 +46,14 @@ var statusMap = {
   MISSED: '已错过'
 }
 
+// 样式状态
+var styleMap = {
+  OFF: 'not_start',
+  ON: '',
+  GOT: 'opened',
+  MISSED: 'miss'
+}
+
 // 补0
 function addZero(i){
   if(i < 10){
@@ -104,6 +112,7 @@ var app = new Vue({
     this.setJssdkConfig()
   },
   data: {
+    styleMap: styleMap,
     upcomingTime: '', // 下次打卡开始时间
     offsetTime: '', // 倒计时
     targetTime: '', // 倒计时目标时间

@@ -72,7 +72,7 @@
                 v-for="(obj, index) in item.list"
                 :key="index"
                 class="sign-card"
-                :class="obj.status">
+                :class="styleMap[obj.state]">
                 <div class="sign-card__time" v-cloak>
                   {{ obj.checkInRoundStr }}
                 </div>
