@@ -449,7 +449,7 @@ button {
   background-position: 0 0, center 3.75rem;
   background-repeat: no-repeat;
   background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@2x.png);
-  background-size: contain, contain;
+  background-size: 100% auto, contain;
   padding-top: 10.625rem;
   -webkit-transition: all .3s;
   transition: all .3s
