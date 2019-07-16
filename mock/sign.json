@@ -1,5 +1,5 @@
 {
-	"error": 0,
+	"error": 102,
 	"msg": null,
 	"data": {
 		"data": {
@@ -17,11 +17,11 @@
 			"id": "156258480015100069",
 			"wxOpenId": "oHDn1wiBppvqYeGbd2j-yroTbkIs",
 			"orderNo": "E20190708195952024300001",
-			"checkInDate": "2019-07-14T16:00:00.000+0000",
+			"checkInDate": "2019-07-16T16:00:00.000+0000",
 			"checkInRound": 3,
 			"checkInType": "REGULAR",
 			"checkInAmount": null,
-			"state": "ON",
+			"state": "OFF",
 			"checkInTime": null,
 			"createTime": "2019-07-08T12:00:03.000+0000"
 		}

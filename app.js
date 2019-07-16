@@ -30,8 +30,53 @@ for (var i = 0; i < images.length; i++) {
   img.src = images[i]
 }
 
-var map = {
+// 时间段对应
+// 本应在后端返回
+var hourMap = {
+  1: '08:30-09:00',
+  2: '12:30-13:00',
+  3: '19:30-20:00'
+}
 
+// 状态对应
+var statusMap = {
+  OFF: '未开始',
+  ON: '',
+  GOT: '',
+  MISSED: '已错过'
+}
+
+// 补0
+function addZero(i){
+  if(i < 10){
+    i = '0' + i
+  }
+  return i
+}
+
+function getOffsetTime(_endtime) {
+  var nowtime = new Date()
+  var endtime = new Date(_endtime)
+  var lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000)
+  var d = parseInt(lefttime / (24 * 60 * 60))
+  var h = parseInt(lefttime / (60 * 60) % 24)
+  var m = parseInt(lefttime / 60 % 60)
+  var s = parseInt(lefttime % 60)
+  h = addZero(h)
+  m = addZero(m)
+  s = addZero(s)
+  return h + ':' + m + ':' + s
+}
+
+var processHistory = function (list) {
+  list.forEach(function(_list){
+    _list.checkInDateStr = dayjs(_list.checkInDate).format('MM月DD日') + ' 周' + '日一二三四五六'.charAt(new Date(_list.checkInDate).getDay())
+    _list.list.forEach(function(one) {
+      one.checkInRoundStr = hourMap[one.checkInRound]
+      one.statusStr = statusMap[one.state]
+    })
+  })
+  return list
 }
 
 Vue.component('modal', {
@@ -59,6 +104,10 @@ var app = new Vue({
     this.setJssdkConfig()
   },
   data: {
+    upcomingTime: '', // 下次打卡开始时间
+    offsetTime: '', // 倒计时
+    targetTime: '', // 倒计时目标时间
+
     datetimeStr: '',
     ready: false,
     hasMore: true,
@@ -67,13 +116,13 @@ var app = new Vue({
     firstModalVisible: false, // 第一次进首页提示弹窗
     signModalVisible: false, // 打卡首页弹层
     finishModalVisible: false, // 没有条包了
+    countdownModalVisible: false, // 未开始
 
     firstSteps: STEPS,
     signInfoRaw: {
       datetime_str: '',
       money: 0
     },
-    countdownModalVisible: false,
     signInfo: {
       datetime_str: '',
       money: 0
@@ -95,20 +144,46 @@ var app = new Vue({
     history: []
   },
   methods: {
+    onCheckCountdownConfirm: function () {
+      this.countdownModalVisible = false
+    } ,
+    getOffsetTime: function () {
+      this.offsetTime = getOffsetTime(this.targetTime)
+    },
     getSignInfo: function() {
       var _this = this
+      /**
+      * 0=正常，有打卡信息
+      * 101=在活动期内，但没有打卡资格
+      * 102=未在活动期内
+      */
       axios.get('./mock/sign.json').then(function(res) {
-        _this.signModalVisible = res.data.data.data
-        // _this.signInfoRaw = res.data.data.list.slice()
-        _this.signInfoRaw = res.data.data.data
-        _this.datetimeStr = res.data.data.checkInDate
-        // _this.signInfos = res.data.data.list.map(function(one) {
-        //   return {
-        //     money: 0
-        //   }
-        // })
-        // _this.signInfo.datetime_str = res.data.data.datetime_str
-        if (!_this.signModalVisible) {
+        var error = res.data.error
+        // 进行中
+        if (error === 0) {
+          _this.signModalVisible = true
+          // _this.signInfoRaw = res.data.data.list.slice()
+          _this.signInfoRaw = res.data.data.data
+          _this.datetimeStr = res.data.data.checkInDate
+          // _this.signInfos = res.data.data.list.map(function(one) {
+          //   return {
+          //     money: 0
+          //   }
+          // })
+          // _this.signInfo.datetime_str = res.data.data.datetime_str
+        }
+
+        // 未开始
+        if (error === 102) {
+          _this.countdownModalVisible = true
+          _this.upcomingTime = hourMap[res.data.data.data.checkInRound]
+          _this.targetTime = res.data.data.data.checkInDate
+          _this.getOffsetTime()
+          setInterval(_this.getOffsetTime, 1000)
+        }
+
+        // 结束
+        if (error === 101) {
           _this.finishModalVisible = true
         }
       })
@@ -116,7 +191,7 @@ var app = new Vue({
     getHistory: function() {
       var _this = this
       axios.get('./mock/history.json').then(function(res) {
-        _this.history = res.data.data.list
+        _this.history = processHistory(res.data.data.list)
         _this.hasMore = res.data.data.has_more
       })
     },
@@ -156,7 +231,7 @@ var app = new Vue({
     onLoadMoreTask: function() {
       var _this = this
       axios.get('./mock/more_history.json').then(function(res) {
-        _this.history = _this.history.concat(res.data.data.list)
+        _this.history = _this.history.concat(processHistory(res.data.data.list))
         _this.hasMore = res.data.data.has_more
       })
     },

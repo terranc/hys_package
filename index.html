@@ -61,11 +61,11 @@
         <!-- history -->
         <div class="task-list">
           <div
-            v-for="item in history"
+            v-for="(item, index) in history"
             :key="item.index"
             class="history-item">
             <div class="history-item__title" v-cloak>
-              第 {{ item.index }} 天 {{ item.date_str }}
+              第 {{ index + 1 }} 天 {{ item.checkInDateStr }}
             </div>
             <div class="history-item__content">
               <div
@@ -74,10 +74,10 @@
                 class="sign-card"
                 :class="obj.status">
                 <div class="sign-card__time" v-cloak>
-                  {{ obj.time }}
+                  {{ obj.checkInRoundStr }}
                 </div>
                 <div class="sign-card__result" v-cloak>
-                  {{ obj.money || obj.status_str }}<span v-if="obj.money" class="sign-card__unit">元</span>
+                  {{ obj.checkInAmount || obj.statusStr }}<span v-if="obj.checkInAmount" class="sign-card__unit">元</span>
                 </div>
               </div>
             </div>
@@ -242,11 +242,11 @@
                 打卡时间还没到哦~
               </div>
               <div class="countdown-modal__desc">
-                下一次打卡时间为 12：30~13：30<br>
+                下一次打卡时间为 {{ upcomingTime }}<br>
                 离打卡还有
               </div>
               <div class="conntdown-modal__timer">
-                00:20:39<span class="countdown-modal__timer-unit">秒</span>
+                {{ offsetTime }}<span class="countdown-modal__timer-unit">秒</span>
               </div>
               <button
                 type="button"
