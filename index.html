@@ -80,6 +80,10 @@
                   {{ obj.checkInAmount || obj.statusStr }}<span v-if="obj.checkInAmount" class="sign-card__unit">元</span>
                 </div>
               </div>
+              <div
+                class="sign-card sign-card__empty"
+                v-if="item.list.length % 3"
+                v-for="i in (3 - item.list.length % 3)"></div>
             </div>
           </div>
           <button
