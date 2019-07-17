@@ -66,6 +66,9 @@ function getOffsetTime(_endtime) {
   var nowtime = new Date()
   var endtime = new Date(_endtime)
   var lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000)
+  if (lefttime < 0) {
+    return '00:00:00'
+  }
   var d = parseInt(lefttime / (24 * 60 * 60))
   var h = parseInt(lefttime / (60 * 60) % 24)
   var m = parseInt(lefttime / 60 % 60)
