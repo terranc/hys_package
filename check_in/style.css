@@ -327,6 +327,7 @@ button {
 .rule {
   display: block;
   width: 100%;
+  padding: 0 .9375rem;
 }
 
 .rule-img {
@@ -336,12 +337,17 @@ button {
 
 .promo-img {
   display: block;
-  width: 23.4375rem;
+  padding: 0 .9375rem;
+/*  width: 23.4375rem;
   height: 13.0625rem;
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: url(./img/promo@2x.png)
+  background-image: url(./img/promo@2x.png)*/
+}
+.promo-img img {
+  width: 100%;
+  display: block;
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
