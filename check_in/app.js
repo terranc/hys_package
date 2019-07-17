@@ -189,7 +189,8 @@ var app = new Vue({
       * 101=在活动期内，但没有打卡资格
       * 102=未在活动期内
       */
-      axios.get('/checkIn/get').then(function(res) {
+      axios.get('/check_in/mock/sign.json').then(function(res) {
+      //axios.get('/checkIn/get').then(function(res) {
         var error = res.data.error
         // 进行中
         if (error === 0) {
@@ -215,14 +216,16 @@ var app = new Vue({
     },
     getHistory: function() {
       var _this = this
-      axios.get('/checkIn/list/'+page).then(function(res) {
+      axios.get('/check_in/mock/history.json').then(function(res) {
+      //axios.get('/checkIn/list/'+page).then(function(res) {
         _this.history = processHistory(res.data.data.list)
         _this.hasMore = res.data.data.has_more
       })
     },
     getBasicInfo: function() {
       var _this = this
-      axios.get('/checkIn/user').then(function(res) {
+      axios.get('/check_in/mock/user.json').then(function(res) {
+      //axios.get('/checkIn/user').then(function(res) {
         var data = res.data.data
         _this.summary = data.summary
         _this.user = data.user
@@ -256,7 +259,8 @@ var app = new Vue({
     onLoadMoreTask: function() {
       var _this = this
       page++;
-      axios.get('/checkIn/list/'+page).then(function(res) {
+      axios.get('/check_in/mock/history.json').then(function(res) {
+      //axios.get('/checkIn/list/'+page).then(function(res) {
         _this.history = _this.history.concat(processHistory(res.data.data.list))
         _this.hasMore = res.data.data.has_more
       })
@@ -271,7 +275,8 @@ var app = new Vue({
         particleCount: 256,
         zIndex:9999
       })
-      axios.post('/checkIn/open/'+this.signInfoRaw.id).then(function(res) {
+      axios.get('/check_in/mock/open.json'+this.signInfoRaw.id).then(function(res) {
+      //axios.post('/checkIn/open/'+this.signInfoRaw.id).then(function(res) {
     	 if(res.data.error==0){
 	        _this.signInfo.money = res.data.data.data.checkInAmount+"元"
 	        _this.getBasicInfo();
