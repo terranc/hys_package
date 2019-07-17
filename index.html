@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
     <link rel="icon" href="favicon.ico">
-    <link href="./style.css" rel="stylesheet">
+    <link href="/check_in/style.css" rel="stylesheet">
     <title>黑源素喝喝打</title>
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
@@ -38,7 +38,7 @@
               累计打卡
             </div>
             <div class="user-summary__value" v-cloak>
-              {{ summary.gotTotalAmount }}<span class="user-summary__unit">次</span>
+              {{ summary.numChecked }}<span class="user-summary__unit">次</span>
             </div>
           </div>
           <div class="user-summary__item">
@@ -46,7 +46,7 @@
               获得红包
             </div>
             <div class="user-summary__value highlight" v-cloak>
-              {{ summary.numChecked }}<span class="user-summary__unit">元</span>
+              {{ summary.gotTotalAmount }}<span class="user-summary__unit">元</span>
             </div>
           </div>
           <div class="user-summary__item">
@@ -60,57 +60,45 @@
         </div>
         <!-- history -->
         <div class="task-list">
-          <div
-            v-for="(item, index) in history"
-            :key="item.index"
-            class="history-item">
-            <div class="history-item__title" v-cloak>
-              第 {{ index + 1 }} 天 {{ item.checkInDateStr }}
-            </div>
-            <div class="history-item__content">
-              <div
-                v-for="(obj, index) in item.list"
-                :key="index"
-                class="sign-card"
-                :class="styleMap[obj.state]">
-                <div class="sign-card__time" v-cloak>
-                  {{ obj.checkInRoundStr }}
-                </div>
-                <div class="sign-card__result" v-cloak>
-                  {{ obj.checkInAmount || obj.statusStr }}<span v-if="obj.checkInAmount" class="sign-card__unit">元</span>
-                </div>
-              </div>
-              <div
-                class="sign-card sign-card__empty"
-                v-if="item.list.length % 3"
-                v-for="i in (3 - item.list.length % 3)"></div>
-            </div>
-          </div>
-          <button
-            v-if="hasMore"
-            type="button"
-            class="task-list__load-btn"
-            @click="onLoadMoreTask">
-          加载更多打卡任务
-          </button>
-          <!--@note 请配置条件-->
+				<div v-for="(item, index) in history" :key="item.index"
+					class="history-item">
+					<div class="history-item__title" v-cloak>{{
+						item.checkInDateStr }}</div>
+					<div class="history-item__content">
+						<div v-for="(obj, index) in item.list" :key="index"
+							class="sign-card" :class="styleMap[obj.state]">
+							<div class="sign-card__time" v-cloak>{{ obj.checkInRoundStr
+								}}</div>
+							<div class="sign-card__result" v-cloak>
+								{{ obj.checkInAmount || obj.statusStr }}
+							</div>
+						</div>
+						<div class="sign-card sign-card__empty"
+							v-if="item.list.length % 3"
+							v-for="i in (3 - item.list.length % 3)"></div>
+					</div>
+				</div>
+				<button v-if="hasMore" type="button" class="task-list__load-btn"
+					@click="onLoadMoreTask">加载更多打卡任务</button>
+				<!--@note 请配置条件-->
           <div class="task-list__bottom-tip" v-if="!hasMore">
             您的打卡任务已经全部加载完毕 <br>
             再次购买或邀请好友购买黑源素可获得条包数相同的打卡抽奖任务
           </div>
         </div>
         <a
-          href="https://baidu.com/"
-          href="#"
+
           class="rule">
           <ul
             class="rule-list">
+            <!-- 
             <li
               v-for="(item, index) in rules"
               :key="index"
               class="rule-item">
               {{ index + 1 }}, {{ item }}
-            </li>
+            </li> -->
+            
           </ul>
 
         </a>
@@ -129,8 +117,8 @@
               <div>
                 <div class="first-modal__tip">
                   <img
-                    src="./img/icon_cup@2x.png"
-                    srcset="./img/icon_cup@3x.png"
+                    src="/check_in/img/icon_cup@2x.png"
+                    srcset="/check_in/img/icon_cup@3x.png"
                     class="icon-cup">
                   <div class="first-modal__tip-content">
                     现在购买黑源素可立即参与打卡抽奖活动
@@ -172,14 +160,14 @@
                     <div
                       class="sign-modal__bar"
                       v-if="!signInfo.money"
-                      @click.stop="onOpenSignBar">
+                      @click.stop.once="onOpenSignBar">
                       打卡 开奖
                     </div>
                     <div
                       class="sign-modal__bar is-open"
                       v-if="signInfo.money"
                       @click.stop>
-                      {{ signInfo.money }}<span class="sign-modal__bar-unit">元</span>
+                      {{ signInfo.money }}
                       <div class="sign-modal__bar-side">
                       </div>
                     </div>
@@ -187,11 +175,11 @@
                 </div>
               </transition>
               <img
-                src="./img/icon_cup@2x.png"
+                src="/check_in/img/icon_cup@2x.png"
                 class="icon-cup sign-modal__icon-cup">
               <div class="sign-modal__tip">
-                奖金会通过公众号发放，请关注功黑源素公众号<br>
-                黑茶精华元素 黑源素，去油腻哦~
+                奖金会通过公众号发放，请关注黑源素公众号<br>
+                黑茶精华源素 黑源素，去油腻哦~
               </div>
               <!-- <button
                 type="button"
@@ -216,8 +204,8 @@
                 继续购买黑源素可获得条包数量相等的打卡抽奖机会
               </div>
               <img
-                src="./img/product@2x.png"
-                srcset="./img/product@3x.png 3x"
+                src="/check_in/img/product@2x.png"
+                srcset="/check_in/img/product@3x.png 3x"
                 class="finish-modal__product-img">
               <button
                 type="button"
@@ -226,11 +214,11 @@
               去商城下单
               </button>
               <img
-                src="./img/icon_cup@2x.png"
-                srcset="./img/icon_cup@3x.png 3x"
+                src="/check_in/img/icon_cup@2x.png"
+                srcset="/check_in/img/icon_cup@3x.png 3x"
                 class="icon-cup">
               <div class="finish-modal__tip">
-                黑茶精华元素 黑源素，去油腻哦~<br>
+                黑茶精华源素 黑源素，去油腻哦~<br>
                 一定要坚持喝哦
               </div>
             </div>
@@ -259,11 +247,11 @@
                 知道了
               </button>
               <img
-                src="./img/icon_cup@2x.png"
-                srcset="./img/icon_cup@3x.png 3x"
+                src="/check_in/img/icon_cup@2x.png"
+                srcset="/check_in/img/icon_cup@3x.png 3x"
                 class="icon-cup">
               <div class="countdown-modal__tip">
-                黑茶精华元素 黑源素，去油腻哦~<br>
+                黑茶精华源素 黑源素，去油腻哦~<br>
                 一定要坚持喝哦
               </div>
             </div>
@@ -284,12 +272,6 @@
     ]
     // 规则
     var RULES = [
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。',
-      '活动规则文字内容活动规则文字内容活动规则文字内容。'
     ]
     // 本地储存是否第一次进入
     var LOCALSTORAGE_KEY = 'first'
@@ -300,7 +282,7 @@
     // 头像
     var headimgurl = ''
     </script>
-    <script type="text/javascript" src="./confetti.js"></script>
-    <script type="text/javascript" src="./app.js"></script>
+    <script type="text/javascript" src="/check_in/confetti.js"></script>
+    <script type="text/javascript" src="/check_in/app.js"></script>
   </body>
 </html>

@@ -1,6 +1,10 @@
 /* rem */
 // 基准大小
 var baseSize = 32
+
+var page=1;
+
+var interval;
 // 设置 rem 函数
 function setRem() {
   // 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。
@@ -17,12 +21,12 @@ window.onresize = function() {
 
 /* 预加载按钮图片 */
 var images = [
-  './img/button_bg@2x.png',
-  './img/button_bg@3x.png',
-  './img/button_open_bg@2x.png',
-  './img/button_open_bg@3x.png',
-  './img/button_open_side@2x.png',
-  './img/button_open_side@3x.png'
+  '/check_in/img/button_bg@2x.png',
+  '/check_in/img/button_bg@3x.png',
+  '/check_in/img/button_open_bg@2x.png',
+  '/check_in/img/button_open_bg@3x.png',
+  '/check_in/img/button_open_side@2x.png',
+  '/check_in/img/button_open_side@3x.png'
 ]
 
 for (var i = 0; i < images.length; i++) {
@@ -41,17 +45,9 @@ var hourMap = {
 // 状态对应
 var statusMap = {
   OFF: '未开始',
-  ON: '',
-  GOT: '',
-  MISSED: '已错过'
-}
-
-// 样式状态
-var styleMap = {
-  OFF: 'not_start',
-  ON: '',
-  GOT: 'opened',
-  MISSED: 'miss'
+  ON: '未打卡',
+  GOT: '已获取',
+  MISSED: '错失'
 }
 
 // 补0
@@ -62,13 +58,29 @@ function addZero(i){
   return i
 }
 
+//样式状态 
+var styleMap = { 
+OFF: 'not_start', 
+ON: 'not_start', 
+GOT: 'opened', 
+MISSED: 'miss' 
+} 
+
 function getOffsetTime(_endtime) {
-  var nowtime = new Date()
+  var nowtime = new Date(_now)
   var endtime = new Date(_endtime)
   var lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000)
-  if (lefttime < 0) {
-    return '00:00:00'
-  }
+  var d = parseInt(lefttime / (24 * 60 * 60))
+  var h = parseInt(lefttime / (60 * 60) % 24)
+  var m = parseInt(lefttime / 60 % 60)
+  var s = parseInt(lefttime % 60)
+  h = addZero(h)
+  m = addZero(m)
+  s = addZero(s)
+  return h + ':' + m + ':' + s
+}
+
+function getOffsetTime_(lefttime){
   var d = parseInt(lefttime / (24 * 60 * 60))
   var h = parseInt(lefttime / (60 * 60) % 24)
   var m = parseInt(lefttime / 60 % 60)
@@ -115,11 +127,12 @@ var app = new Vue({
     this.setJssdkConfig()
   },
   data: {
-    styleMap: styleMap,
+	styleMap: styleMap, 
     upcomingTime: '', // 下次打卡开始时间
     offsetTime: '', // 倒计时
     targetTime: '', // 倒计时目标时间
-
+    leftTime: 0, // 倒计时目标时间
+    
     datetimeStr: '',
     ready: false,
     hasMore: true,
@@ -150,7 +163,7 @@ var app = new Vue({
     summary: {
       gotTotalAmount: 0.00,
       numChecked: 0,
-      numToCheck: 12
+      numToCheck: 0
     },
     rules: RULES,
     history: []
@@ -160,7 +173,14 @@ var app = new Vue({
       this.countdownModalVisible = false
     } ,
     getOffsetTime: function () {
-      this.offsetTime = getOffsetTime(this.targetTime)
+      if(this.leftTime==0){
+    	  clearInterval(interval)
+    	  this.countdownModalVisible=false;
+    	  this.getSignInfo();
+    	  this.getHistory();
+      }
+      this.leftTime--;
+      this.offsetTime = getOffsetTime_(this.leftTime)
     },
     getSignInfo: function() {
       var _this = this
@@ -169,32 +189,25 @@ var app = new Vue({
       * 101=在活动期内，但没有打卡资格
       * 102=未在活动期内
       */
-      axios.get('./mock/sign.json').then(function(res) {
+      axios.get('/checkIn/get').then(function(res) {
         var error = res.data.error
         // 进行中
         if (error === 0) {
           _this.signModalVisible = true
-          // _this.signInfoRaw = res.data.data.list.slice()
           _this.signInfoRaw = res.data.data.data
           _this.datetimeStr = res.data.data.checkInDate
-          // _this.signInfos = res.data.data.list.map(function(one) {
-          //   return {
-          //     money: 0
-          //   }
-          // })
-          // _this.signInfo.datetime_str = res.data.data.datetime_str
         }
-
         // 未开始
         if (error === 102) {
           _this.countdownModalVisible = true
           _this.upcomingTime = hourMap[res.data.data.data.checkInRound]
           _this.targetTime = res.data.data.data.checkInDate
+          var nowtime = new Date(res.data.data.data.now)
+          var endtime = new Date(res.data.data.data.checkInDate)
+          _this.leftTime= parseInt((endtime.getTime() - nowtime.getTime()) / 1000+1);
           _this.getOffsetTime()
-          setInterval(_this.getOffsetTime, 1000)
+          interval=setInterval(_this.getOffsetTime, 1000)
         }
-
-        // 结束
         if (error === 101) {
           _this.finishModalVisible = true
         }
@@ -202,14 +215,14 @@ var app = new Vue({
     },
     getHistory: function() {
       var _this = this
-      axios.get('./mock/history.json').then(function(res) {
+      axios.get('/checkIn/list/'+page).then(function(res) {
         _this.history = processHistory(res.data.data.list)
         _this.hasMore = res.data.data.has_more
       })
     },
     getBasicInfo: function() {
       var _this = this
-      axios.get('./mock/user.json').then(function(res) {
+      axios.get('/checkIn/user').then(function(res) {
         var data = res.data.data
         _this.summary = data.summary
         _this.user = data.user
@@ -217,7 +230,7 @@ var app = new Vue({
       })
     },
     setJssdkConfig: function() {
-      axios.get('./mock/jssdk.json').then(function(res) {
+      axios.get('/check_in/mock/jssdk.json').then(function(res) {
         wx.config(res.data.data)
       })
     },
@@ -242,7 +255,8 @@ var app = new Vue({
     },
     onLoadMoreTask: function() {
       var _this = this
-      axios.get('./mock/more_history.json').then(function(res) {
+      page++;
+      axios.get('/checkIn/list/'+page).then(function(res) {
         _this.history = _this.history.concat(processHistory(res.data.data.list))
         _this.hasMore = res.data.data.has_more
       })
@@ -252,12 +266,19 @@ var app = new Vue({
     },
     onOpenSignBar: function(item, index) {
       var _this = this
+      item.isDisable = true;
       window.confetti({
         particleCount: 256,
         zIndex:9999
       })
-      axios.get('./mock/open.json').then(function(res) {
-        _this.signInfo.money = res.data.data.data.checkInAmount
+      axios.post('/checkIn/open/'+this.signInfoRaw.id).then(function(res) {
+    	 if(res.data.error==0){
+	        _this.signInfo.money = res.data.data.data.checkInAmount+"元"
+	        _this.getBasicInfo();
+	        _this.getHistory();
+    	 }else{
+    		 _this.signInfo.money = res.data.data.data.msg
+    	 }
       })
     },
     onShareToWechat: function() {},
