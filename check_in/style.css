@@ -326,34 +326,12 @@ button {
 
 .rule {
   display: block;
-  width: 23.4375rem;
-  height: 40.03125rem;
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-image: url(./img/rules@2x.png)
+  width: 100%;
 }
 
-@media (-webkit-min-device-pixel-ratio:3),
-(min-device-pixel-ratio:3) {
-  .rule {
-    background-image: url(./img/rules@3x.png)
-  }
-}
-
-.rule-list {
-  width: 10.4375rem;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  padding: 18.375rem 0 0 2rem
-}
-
-.rule-item {
-  font-size: .625rem;
-  color: #893e19;
-  line-height: .875rem;
-  margin-bottom: .875rem;
-  font-weight: 600
+.rule-img {
+  width: 100%;
+  display: block;
 }
 
 .promo-img {
