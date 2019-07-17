@@ -123,13 +123,13 @@ button {
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: url(../check_in/img/bg@2x.png)
+  background-image: url(./img/bg@2x.png)
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .user-info {
-    background-image: url(../check_in/img/bg@3x.png)
+    background-image: url(./img/bg@3x.png)
   }
 }
 
@@ -253,7 +253,7 @@ button {
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-card.opened {
-    background-image: url(../check_in/img/sign_opened@3x.png)
+    background-image: url(./img/sign_opened@3x.png)
   }
 }
 
@@ -282,7 +282,7 @@ button {
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-card.not_start {
-    background-image: url(../check_in/img/sign_not_start@3x.png)
+    background-image: url(./img/sign_not_start@3x.png)
   }
 }
 
@@ -331,13 +331,13 @@ button {
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: url(../check_in/img/rules@2x.png)
+  background-image: url(./img/rules@2x.png)
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .rule {
-    background-image: url(../check_in/img/rules@3x.png)
+    background-image: url(./img/rules@3x.png)
   }
 }
 
@@ -363,13 +363,13 @@ button {
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: url(../check_in/img/promo@2x.png)
+  background-image: url(./img/promo@2x.png)
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .promo-img {
-    background-image: url(../check_in/img/promo@3x.png)
+    background-image: url(./img/promo@3x.png)
   }
 }
 
@@ -385,7 +385,7 @@ button {
   height: 29.90625rem;
   background-position: 0 0, center 3.75rem;
   background-repeat: no-repeat;
-  background-image: url(../check_in/img/modal_promo_img@2x.png), url(../check_in/img/modal_bg@2x.png);
+  background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@2x.png);
   background-size: 100% 100%, contain;
   padding-top: 11rem;
 }
@@ -393,7 +393,7 @@ button {
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .first-modal__container {
-    background-image: url(../check_in/img/modal_promo_img@2x.png), url(../check_in/img/modal_bg@3x.png);
+    background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@3x.png);
   }
 }
 
@@ -452,7 +452,7 @@ button {
   height: auto;
   background-position: 0 0, center 3.75rem;
   background-repeat: no-repeat;
-  background-image: url(../check_in/img/modal_promo_img@2x.png), url(../check_in/img/modal_bg@2x.png);
+  background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@2x.png);
   background-size: 100% auto, contain;
   padding-top: 10.625rem;
   -webkit-transition: all .3s;
@@ -462,7 +462,7 @@ button {
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-modal__container {
-    background-image: url(../check_in/img/modal_promo_img@2x.png), url(../check_in/img/modal_bg@3x.png);
+    background-image: url(./img/modal_promo_img@2x.png), url(./img/modal_bg@3x.png);
   }
 }
 
@@ -477,7 +477,7 @@ button {
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: url(../check_in/img/button_bg@2x.png);
+  background-image: url(./img/button_bg@2x.png);
   font-size: 1.25rem;
   color: #fff;
   font-weight: 600;
@@ -490,20 +490,20 @@ button {
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-modal__bar {
-    background-image: url(../check_in/img/button_bg@3x.png)
+    background-image: url(./img/button_bg@3x.png)
   }
 }
 
 .sign-modal__bar.is-open {
   font-size: 1.5625rem;
   background-size: 16.1875rem 3.96875rem;
-  background-image: url(../check_in/img/button_open_bg@2x.png);
+  background-image: url(./img/button_open_bg@2x.png);
 }
 
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-modal__bar.is-open {
-    background-image: url(../check_in/img/button_open_bg@3x.png)
+    background-image: url(./img/button_open_bg@3x.png)
   }
 }
 
@@ -513,7 +513,7 @@ button {
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: url(../check_in/img/button_open_side@2x.png);
+  background-image: url(./img/button_open_side@2x.png);
   position: absolute;
   top: 0;
   right: -1rem;
@@ -523,7 +523,7 @@ button {
 @media (-webkit-min-device-pixel-ratio:3),
 (min-device-pixel-ratio:3) {
   .sign-modal__bar-side {
-    background-image: url(../check_in/img/button_open_side@3x.png)
+    background-image: url(./img/button_open_side@3x.png)
   }
 }
 
