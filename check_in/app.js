@@ -58,17 +58,27 @@ function addZero(i){
   return i
 }
 
-//样式状态 
+// 样式状态 
 var styleMap = { 
-OFF: 'not_start', 
-ON: 'not_start', 
-GOT: 'opened', 
-MISSED: 'miss' 
-} 
+  OFF: 'not_start', 
+  ON: 'not_start', 
+  GOT: 'opened', 
+  MISSED: 'miss' 
+}
+
+// safari 下时间格式问题
+var _fixDate = function (str) {
+  return str.replace('+0000', '')
+}
+
+var _dayjs = function (str) {
+  return dayjs(_fixDate(str))
+}
+
 
 function getOffsetTime(_endtime) {
-  var nowtime = new Date(_now)
-  var endtime = new Date(_endtime)
+  var nowtime = _dayjs(_now).toDate()
+  var endtime = _dayjs(_endtime).toDate()
   var lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000)
   var d = parseInt(lefttime / (24 * 60 * 60))
   var h = parseInt(lefttime / (60 * 60) % 24)
@@ -93,7 +103,7 @@ function getOffsetTime_(lefttime){
 
 var processHistory = function (list) {
   list.forEach(function(_list){
-    _list.checkInDateStr = dayjs(_list.checkInDate).format('MM月DD日') + ' 周' + '日一二三四五六'.charAt(new Date(_list.checkInDate).getDay())
+    _list.checkInDateStr = _dayjs(_list.checkInDate).format('MM月DD日') + ' 周' + '日一二三四五六'.charAt(_dayjs(_list.checkInDate).toDate().getDay())
     _list.list.forEach(function(one) {
       one.checkInRoundStr = hourMap[one.checkInRound]
       one.statusStr = statusMap[one.state]
@@ -173,9 +183,9 @@ var app = new Vue({
       this.countdownModalVisible = false
     } ,
     getOffsetTime: function () {
-      if(this.leftTime==0){
+      if(this.leftTime === 0){
     	  clearInterval(interval)
-    	  this.countdownModalVisible=false;
+    	  this.countdownModalVisible = false;
     	  this.getSignInfo();
     	  this.getHistory();
       }
@@ -203,11 +213,11 @@ var app = new Vue({
           _this.countdownModalVisible = true
           _this.upcomingTime = hourMap[res.data.data.data.checkInRound]
           _this.targetTime = res.data.data.data.checkInDate
-          var nowtime = new Date(res.data.data.data.now)
-          var endtime = new Date(res.data.data.data.checkInDate)
+          var nowtime = _dayjs(res.data.data.data.now).toDate()
+          var endtime = _dayjs(res.data.data.data.checkInDate).toDate()
           _this.leftTime= parseInt((endtime.getTime() - nowtime.getTime()) / 1000+1);
           _this.getOffsetTime()
-          interval=setInterval(_this.getOffsetTime, 1000)
+          interval = setInterval(_this.getOffsetTime, 1000)
         }
         if (error === 101) {
           _this.finishModalVisible = true
@@ -277,11 +287,11 @@ var app = new Vue({
       })
       axios.get('./mock/open.json'+this.signInfoRaw.id).then(function(res) {
       //axios.post('/checkIn/open/'+this.signInfoRaw.id).then(function(res) {
-    	 if(res.data.error==0){
-	        _this.signInfo.money = res.data.data.data.checkInAmount+"元"
+    	 if (res.data.error === 0){
+	        _this.signInfo.money = res.data.data.data.checkInAmount + "元"
 	        _this.getBasicInfo();
 	        _this.getHistory();
-    	 }else{
+    	 } else {
     		 _this.signInfo.money = res.data.data.data.msg
     	 }
       })
