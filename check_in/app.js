@@ -292,7 +292,7 @@ var app = new Vue({
 	        _this.getBasicInfo();
 	        _this.getHistory();
     	 } else {
-    		 _this.signInfo.money = res.data.data.data.msg
+    		 alert(res.data.data.data.msg)
     	 }
       })
     },
