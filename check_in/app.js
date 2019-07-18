@@ -135,9 +135,20 @@ var app = new Vue({
     this.getBasicInfo()
     this.getHistory()
     this.setJssdkConfig()
+
+    // 显示 confirm，在显示前可以修改 confirmTitile 和 confirmText
+    /*
+    setTimeout(function () {  // 用于直接测试效果
+      _this.confirmModalVisible = true
+    }, 2000)
+    */
   },
   data: {
-	styleMap: styleMap,
+    isConfirm: false, // 是否为 confirm 弹窗
+    confirmTitle: '操作提示',
+    confirmText: '确定吗?',
+
+	  styleMap: styleMap,
     upcomingTime: '', // 下次打卡开始时间
     offsetTime: '', // 倒计时
     targetTime: '', // 倒计时目标时间
@@ -152,7 +163,7 @@ var app = new Vue({
     signModalVisible: false, // 打卡首页弹层
     finishModalVisible: false, // 没有条包了
     countdownModalVisible: false, // 未开始
-    confirmModalVisible: true, // 确认弹窗
+    confirmModalVisible: false, // 确认弹窗
     
     firstSteps: STEPS,
     signInfoRaw: {
@@ -180,6 +191,9 @@ var app = new Vue({
     history: []
   },
   methods: {
+    onConfirm: function () {
+      console.log('on confirm')
+    },
     onCheckCountdownConfirm: function () {
       this.countdownModalVisible = false
     } ,
@@ -293,7 +307,10 @@ var app = new Vue({
 	        _this.getBasicInfo();
 	        _this.getHistory();
     	 } else {
-    		 alert(res.data.data.data.msg)
+    		 // alert(res.data.data.data.msg)
+         this.isConfirm = false // alert 模式
+         this.confirmText = res.data.data.data.msg // 修改显示内容
+         this.confirmModalVisible = true // 显示弹窗
     	 }
       })
     },

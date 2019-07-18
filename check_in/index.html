@@ -258,23 +258,23 @@
           <modal
             v-if="confirmModalVisible"
             @on-click-mask="confirmModalVisible = false">
-            <div class="confirm-container">
+            <div class="confirm-container" @click.stop>
               <div class="confirm-content">
                 <div class="confirm-title">
-                  操作提示
+                  {{ confirmTitle }}
                 </div>
 
                 <div class="confirm-desc">
-                  确定吗?
+                  {{ confirmText }}
                 </div>
               </div>
 
               <div class="confirm-footer">
-                <div class="confirm-btn default">
+                <div class="confirm-btn default" @click="confirmModalVisible = false">
                   取消
                 </div>
 
-                <div class="confirm-btn primary">
+                <div class="confirm-btn primary" v-if="isConfirm" @click="onConfirm">
                   确定
                 </div>
               </div>
