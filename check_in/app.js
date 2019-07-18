@@ -138,7 +138,9 @@ var app = new Vue({
 
     // 显示 confirm，在显示前可以修改 confirmTitile 和 confirmText
     /*
+    * 粟子
     setTimeout(function () {  // 用于直接测试效果
+      _this.isConfirm = true // confirm 模式， false 时为 alert 模式
       _this.confirmModalVisible = true
     }, 2000)
     */
@@ -192,6 +194,7 @@ var app = new Vue({
   },
   methods: {
     onConfirm: function () {
+      this.confirmModalVisible = false
       console.log('on confirm')
     },
     onCheckCountdownConfirm: function () {

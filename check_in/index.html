@@ -270,11 +270,11 @@
               </div>
 
               <div class="confirm-footer">
-                <div class="confirm-btn default" @click="confirmModalVisible = false">
+                <div class="confirm-btn default" v-if="isConfirm" @click="confirmModalVisible = false">
                   取消
                 </div>
 
-                <div class="confirm-btn primary" v-if="isConfirm" @click="onConfirm">
+                <div class="confirm-btn primary" @click="onConfirm">
                   确定
                 </div>
               </div>
