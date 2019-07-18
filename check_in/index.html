@@ -254,6 +254,33 @@
             </div>
           </modal>
         </transition>
+        <transition name="modal">
+          <modal
+            v-if="confirmModalVisible"
+            @on-click-mask="confirmModalVisible = false">
+            <div class="confirm-container">
+              <div class="confirm-content">
+                <div class="confirm-title">
+                  操作提示
+                </div>
+
+                <div class="confirm-desc">
+                  确定吗?
+                </div>
+              </div>
+
+              <div class="confirm-footer">
+                <div class="confirm-btn default">
+                  取消
+                </div>
+
+                <div class="confirm-btn primary">
+                  确定
+                </div>
+              </div>
+            </div>
+          </modal>
+        </transition>
       </div>
     </div>
     <script>

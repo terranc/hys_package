@@ -58,12 +58,12 @@ function addZero(i){
   return i
 }
 
-// 样式状态 
-var styleMap = { 
-  OFF: 'not_start', 
-  ON: 'not_start', 
-  GOT: 'opened', 
-  MISSED: 'miss' 
+// 样式状态
+var styleMap = {
+  OFF: 'not_start',
+  ON: 'not_start',
+  GOT: 'opened',
+  MISSED: 'miss'
 }
 
 // safari 下时间格式问题
@@ -137,12 +137,12 @@ var app = new Vue({
     this.setJssdkConfig()
   },
   data: {
-	styleMap: styleMap, 
+	styleMap: styleMap,
     upcomingTime: '', // 下次打卡开始时间
     offsetTime: '', // 倒计时
     targetTime: '', // 倒计时目标时间
     leftTime: 0, // 倒计时目标时间
-    
+
     datetimeStr: '',
     ready: false,
     hasMore: true,
@@ -152,7 +152,8 @@ var app = new Vue({
     signModalVisible: false, // 打卡首页弹层
     finishModalVisible: false, // 没有条包了
     countdownModalVisible: false, // 未开始
-
+    confirmModalVisible: true, // 确认弹窗
+    
     firstSteps: STEPS,
     signInfoRaw: {
       datetime_str: '',
