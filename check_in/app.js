@@ -223,7 +223,7 @@ var app = new Vue({
       * 102=未在活动期内
       */
       axios.get('./mock/sign.json').then(function(res) {
-    	 islogout(res);
+    	islogout(res);
         var error = res.data.error
         // 进行中
         if (error === 0) {
@@ -250,7 +250,7 @@ var app = new Vue({
     getHistory: function() {
       var _this = this
       axios.get('./mock/history.json').then(function(res) {
-    	 islogout(res);
+    	islogout(res);
         _this.history = processHistory(res.data.data.list)
         _this.hasMore = res.data.data.has_more
       })
@@ -258,7 +258,7 @@ var app = new Vue({
     getBasicInfo: function() {
       var _this = this
       axios.get('./mock/user.json').then(function(res) {
-    	 islogout(res);
+    	islogout(res);
         var data = res.data.data
         _this.summary = data.summary
         _this.user = data.user
@@ -281,10 +281,10 @@ var app = new Vue({
         }
       })
       wx.updateTimelineShareData({
-		   title: '餐后一杯黑源素，打卡咯', // 分享标题
-		   desc: '快来点我打卡领红包！', // 分享描述
-		   link: 'https://www.heisoon.com/check_in/index.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-		   imgUrl: 'https://www.heisoon.com/images/logo.jpg?1.0', // 分享图标
+          title: '餐后一杯黑源素，打卡咯', // 分享标题
+          desc: '快来点我打卡领红包！', // 分享描述
+          link: 'https://www.heisoon.com/check_in/index.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: 'https://www.heisoon.com/images/logo.jpg?1.0', // 分享图标
         success: function() {
           // 设置成功
         }
@@ -294,7 +294,7 @@ var app = new Vue({
       var _this = this
       page++;
       axios.get('./mock/history.json').then(function(res) {
-    	 islogout(res);
+    	islogout(res);
         _this.history = _this.history.concat(processHistory(res.data.data.list))
         _this.hasMore = res.data.data.has_more
       })
