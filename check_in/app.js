@@ -19,6 +19,12 @@ window.onresize = function() {
   setRem()
 }
 
+var islogout=function(res){
+ if(res.data.code && res.data.code===601){
+	 alert("登录失效");
+	 location.reload();
+ }
+}
 /* 预加载按钮图片 */
 var images = [
   './img/button_bg@2x.png',
@@ -138,7 +144,6 @@ var app = new Vue({
 
     // 显示 confirm，在显示前可以修改 confirmTitile 和 confirmText
     /*
-    * 粟子
     setTimeout(function () {  // 用于直接测试效果
       _this.isConfirm = true // confirm 模式， false 时为 alert 模式
       _this.confirmModalVisible = true
@@ -218,7 +223,7 @@ var app = new Vue({
       * 102=未在活动期内
       */
       axios.get('./mock/sign.json').then(function(res) {
-      //axios.get('/checkIn/get').then(function(res) {
+    	 islogout(res);
         var error = res.data.error
         // 进行中
         if (error === 0) {
@@ -245,7 +250,7 @@ var app = new Vue({
     getHistory: function() {
       var _this = this
       axios.get('./mock/history.json').then(function(res) {
-      //axios.get('/checkIn/list/'+page).then(function(res) {
+    	 islogout(res);
         _this.history = processHistory(res.data.data.list)
         _this.hasMore = res.data.data.has_more
       })
@@ -253,7 +258,7 @@ var app = new Vue({
     getBasicInfo: function() {
       var _this = this
       axios.get('./mock/user.json').then(function(res) {
-      //axios.get('/checkIn/user').then(function(res) {
+    	 islogout(res);
         var data = res.data.data
         _this.summary = data.summary
         _this.user = data.user
@@ -267,18 +272,19 @@ var app = new Vue({
     },
     setShare: function() {
       wx.updateAppMessageShareData({
-        title: '', // 分享标题
-        desc: '', // 分享描述
-        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: '', // 分享图标
+        title: '餐后一杯黑源素，打卡咯', // 分享标题
+        desc: '快来点我打卡领红包！', // 分享描述
+        link: 'https://www.heisoon.com/check_in/index.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: 'https://www.heisoon.com/images/logo.jpg?1.0', // 分享图标
         success: function() {
           // 设置成功
         }
       })
       wx.updateTimelineShareData({
-        title: '', // 分享标题
-        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: '', // 分享图标
+		   title: '餐后一杯黑源素，打卡咯', // 分享标题
+		   desc: '快来点我打卡领红包！', // 分享描述
+		   link: 'https://www.heisoon.com/check_in/index.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		   imgUrl: 'https://www.heisoon.com/images/logo.jpg?1.0', // 分享图标
         success: function() {
           // 设置成功
         }
@@ -288,7 +294,7 @@ var app = new Vue({
       var _this = this
       page++;
       axios.get('./mock/history.json').then(function(res) {
-      //axios.get('/checkIn/list/'+page).then(function(res) {
+    	 islogout(res);
         _this.history = _this.history.concat(processHistory(res.data.data.list))
         _this.hasMore = res.data.data.has_more
       })
@@ -304,7 +310,7 @@ var app = new Vue({
         zIndex:9999
       })
       axios.get('./mock/open.json'+this.signInfoRaw.id).then(function(res) {
-      //axios.post('/checkIn/open/'+this.signInfoRaw.id).then(function(res) {
+    	 islogout(res);
     	 if (res.data.error === 0){
 	        _this.signInfo.money = res.data.data.data.checkInAmount + "元"
 	        _this.getBasicInfo();
